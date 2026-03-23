@@ -1,9 +1,9 @@
 import "./TodoCard.css";
 
-const TodoCard = () => {
+const TodoCard = ({ todo }) => {
   return (
     <>
-      <h2>Hello from TodoCard</h2>
+      <p>{todo}</p>
     </>
   );
 };
