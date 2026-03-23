@@ -1,0 +1,40 @@
+.todo-list {
+  margin: 25px 20px;
+}
+
+.todo-list-header {
+  display: flex;
+  justify-content: space-between;
+
+  .title {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .__reset-button {
+    margin-top: 20px;
+    border-radius: 8px;
+    border: black solid 2px;
+    height: 5vh;
+    background-color: white;
+  }
+}
+
+.todo-list-form {
+  display: flex;
+  justify-content: space-between;
+  border: black solid 2px;
+  border-radius: 8px;
+  height: 5vh;
+
+  .__todo-input {
+    flex: 1;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    padding-left: 10px;
+  }
+  .__todo-submit-btn {
+    background: none;
+    border: none;
+  }
+}

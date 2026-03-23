@@ -3,6 +3,8 @@ import "./TodoList.css";
 
 import TodoCard from "../TodoCard/TodoCard";
 
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
@@ -43,20 +45,29 @@ const TodoList = () => {
   });
 
   return (
-    <div>
-      <h2>My Todo's</h2>
-      <button onClick={() => setTodos([])}>Reset</button>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          onChange={handleChange}
-          placeholder="Add your task here..."
-          value={newTodo}
-        />
-        <button type="submit">+</button>
-      </form>
+    <>
+      <section className="todo-list">
+        <div className="todo-list-header">
+          <h1 className="title">My Todos</h1>
+          <button className="__reset-button" onClick={() => setTodos([])}>
+            Reset
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="todo-list-form">
+          <input
+            type="text"
+            onChange={handleChange}
+            placeholder="Add your task here..."
+            value={newTodo}
+            className="__todo-input"
+          />
+          <button type="submit" className="__todo-submit-btn">
+            <AddCircleIcon />
+          </button>
+        </form>
+      </section>
       {mappedTodoCards}
-    </div>
+    </>
   );
 };
 

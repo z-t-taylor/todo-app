@@ -1,3 +1,37 @@
-.completed {
-  text-decoration: line-through;
+.todo-card {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  border: black solid 2px;
+  border-radius: 8px;
+
+  .__completed {
+    text-decoration: line-through;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 200px;
+  }
+
+  .__not-completed {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 200px;
+  }
+
+  .__todo-card-inputs {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding-left: 10px;
+  }
+
+  .__todo-delete-btn {
+    background: none;
+    border: none;
+    padding-right: 10px;
+  }
 }
