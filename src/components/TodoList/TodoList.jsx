@@ -45,6 +45,7 @@ const TodoList = () => {
   return (
     <div>
       <h2>My Todo's</h2>
+      <button onClick={() => setTodos([])}>Reset</button>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
