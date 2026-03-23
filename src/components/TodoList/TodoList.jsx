@@ -9,7 +9,7 @@ const TodoList = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTodos([...todos, newTodo]);
+    setTodos([...todos, { id: Date.now(), todo: newTodo }]);
     setNewTodo("");
   };
 
@@ -17,8 +17,15 @@ const TodoList = () => {
     setNewTodo(e.target.value);
   };
 
+  const handleRemove = (id) => {
+    const removeTodo = todos.filter((todo) => {
+      return id !== todo.id;
+    });
+    setTodos(removeTodo);
+  };
+
   const mappedTodoCards = todos.map((todo, i) => {
-    return <TodoCard key={i} todo={todo} />;
+    return <TodoCard key={i} todo={todo} handleRemove={handleRemove} />;
   });
 
   return (
