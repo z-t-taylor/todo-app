@@ -7,6 +7,8 @@ A simple todo list app. Built with React.
 
 Get yourself organised!
 
+Click here for [Live Demo](https://z-t-taylor.github.io/todo-app)
+
 ## Libraries used:
 
 - Material UI
