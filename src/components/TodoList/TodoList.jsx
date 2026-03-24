@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./TodoList.css";
 
 import TodoCard from "../TodoCard/TodoCard";
@@ -8,6 +8,8 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
+  const [badges, setBadges] = useState([]);
+  const [completedTodoCount, setCompletedTodoCount] = useState(0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -66,6 +68,7 @@ const TodoList = () => {
           </button>
         </form>
       </section>
+      <section></section>
       {mappedTodoCards}
     </>
   );
