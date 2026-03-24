@@ -1,0 +1,10 @@
+.badge-card-img {
+  border-radius: 40px;
+  border: solid black 2px;
+  width: 80px;
+}
+
+.badge-card {
+  margin: 10px;
+  margin-top: 0px;
+}

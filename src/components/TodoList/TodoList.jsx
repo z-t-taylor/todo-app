@@ -4,6 +4,7 @@ import "./TodoList.css";
 import TodoCard from "../TodoCard/TodoCard";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import BadgeList from "../BadgeList/BadgeList";
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
@@ -33,6 +34,7 @@ const TodoList = () => {
       return id === todo.id ? { ...todo, completed: !todo.completed } : todo;
     });
     setTodos(completeTodo);
+    setCompletedTodoCount((count) => count + 1);
   };
 
   const mappedTodoCards = todos.map((todo, i) => {
@@ -46,12 +48,29 @@ const TodoList = () => {
     );
   });
 
+  const resetAll = () => {
+    setTodos([]);
+    setBadges([]);
+  };
+
+  useEffect(() => {
+    if (completedTodoCount === 0) return;
+
+    fetch("https://cataas.com/cat?type=square&json=true")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        return setBadges((images) => [...images, data.url]);
+      });
+  }, [completedTodoCount]);
+
   return (
     <>
       <section className="todo-list">
         <div className="todo-list-header">
           <h1 className="title">My Todos</h1>
-          <button className="__reset-button" onClick={() => setTodos([])}>
+          <button className="__reset-button" onClick={resetAll}>
             Reset
           </button>
         </div>
@@ -68,7 +87,9 @@ const TodoList = () => {
           </button>
         </form>
       </section>
-      <section></section>
+      <section>
+        <BadgeList badges={badges} />
+      </section>
       {mappedTodoCards}
     </>
   );
