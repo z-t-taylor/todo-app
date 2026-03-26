@@ -7,7 +7,7 @@ const TodoCard = ({ todo, handleRemove, toggleComplete }) => {
       <div className="__todo-card-inputs">
         <input type="checkbox" onChange={() => toggleComplete(todo.id)} />
         <p className={todo.completed ? "__completed" : "__not-completed"}>
-          {todo.todo}
+          {todo.task}
         </p>
       </div>
       <button

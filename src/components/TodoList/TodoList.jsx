@@ -12,47 +12,6 @@ const TodoList = () => {
   const [badges, setBadges] = useState([]);
   const [completedTodoCount, setCompletedTodoCount] = useState(0);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setTodos([...todos, { id: Date.now(), todo: newTodo, completed: false }]);
-    setNewTodo("");
-  };
-
-  const handleChange = (e) => {
-    setNewTodo(e.target.value);
-  };
-
-  const handleRemove = (id) => {
-    const removeTodo = todos.filter((todo) => {
-      return id !== todo.id;
-    });
-    setTodos(removeTodo);
-  };
-
-  const toggleComplete = (id) => {
-    const completeTodo = todos.map((todo) => {
-      return id === todo.id ? { ...todo, completed: !todo.completed } : todo;
-    });
-    setTodos(completeTodo);
-    setCompletedTodoCount((count) => count + 1);
-  };
-
-  const mappedTodoCards = todos.map((todo, i) => {
-    return (
-      <TodoCard
-        key={i}
-        todo={todo}
-        handleRemove={handleRemove}
-        toggleComplete={toggleComplete}
-      />
-    );
-  });
-
-  const resetAll = () => {
-    setTodos([]);
-    setBadges([]);
-  };
-
   useEffect(() => {
     if (completedTodoCount === 0) return;
 
@@ -64,6 +23,101 @@ const TodoList = () => {
         return setBadges((images) => [...images, data.url]);
       });
   }, [completedTodoCount]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/tasks")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        const formatData = data.map((task) => ({
+          id: task._id,
+          task: task.task,
+          completed: task.completed,
+        }));
+        setTodos(formatData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch("http://localhost:3000/tasks", {
+      method: "POST",
+      body: JSON.stringify({ task: newTodo }),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((newTask) => {
+        setTodos([
+          ...todos,
+          { id: newTask._id, task: newTask.task, completed: newTask.completed },
+        ]);
+        setNewTodo("");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleChange = (e) => {
+    setNewTodo(e.target.value);
+  };
+
+  const handleRemove = (id) => {
+    fetch(`http://localhost:3000/tasks/${id}`, { method: "DELETE" })
+      .then(() => {
+        const removeTodo = todos.filter((todo) => {
+          return id !== todo.id;
+        });
+        setTodos(removeTodo);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const toggleComplete = (id) => {
+    const completeTodo = todos.map((todo) => {
+      return id === todo.id ? { ...todo, completed: !todo.completed } : todo;
+    });
+    setTodos(completeTodo);
+
+    const checkTodo = todos.find((todo) => todo.id === id);
+    if (checkTodo.completed) {
+      setBadges((images) => images.splice(-1, 1));
+      setCompletedTodoCount((count) => count - 1);
+    } else {
+      setCompletedTodoCount((count) => count + 1);
+    }
+  };
+
+  const mappedTodoCards = todos.map((todo) => {
+    return (
+      <TodoCard
+        key={todo.id}
+        todo={todo}
+        handleRemove={handleRemove}
+        toggleComplete={toggleComplete}
+      />
+    );
+  });
+
+  const resetAll = () => {
+    fetch("http://localhost:3000/tasks", { method: "DELETE" })
+      .then(() => {
+        setTodos([]);
+        setBadges([]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
